@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  wordpress:
+    image: wordpress:6.1.1-fpm-alpine
+    volumes:
+      - wordpress:/var/www/html/
+      - ./wp-config.php:/var/www/html/wp-config.php
+      - ./db.php:/var/www/html/wp-content/db.php
+      - ./sqlite-database-integration:/var/www/html/wp-content/plugins/sqlite-database-integration
+      - ./wp-content:/var/www/html/wp-content
+  nginx:
+    image: nginx:1.7
+    volumes:
+      - ./fpm.conf:/etc/nginx/conf.d/default.conf
+      - wordpress:/var/www/html
+    ports:
+      - 8080:80
+volumes:
+  wordpress:
